@@ -15,6 +15,7 @@ struct timespec
 
 int nanosleep(const struct timespec *req, struct timespec *rem);
 unsigned int sleep(unsigned int seconds);
+
 #ifdef cplusplus
 }
 #endif

@@ -19,7 +19,7 @@ static struct mem_list *mem_list_alloc(void)
 	return mmap(NULL, sizeof(struct mem_list), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 }
 
-static int mem_list_free(struct mem_list *item)
+int mem_list_free(struct mem_list *item)
 {
 	return munmap(item, sizeof(struct mem_list));
 }
@@ -51,11 +51,11 @@ struct mem_list *mem_list_find(void *start)
 	for (iter = mem_list_head.next; iter != &mem_list_head; iter = iter->next)
 		if (iter->start == start)
 			return iter;
-
+	//write(1, "fd", 2);
 	return NULL;
 }
 
-static struct mem_list *mem_list_extract(void *start)
+struct mem_list *mem_list_extract(void *start)
 {
 	struct mem_list *item;
 
@@ -77,9 +77,11 @@ int mem_list_del(void *start)
 	struct mem_list *item;
 
 	item = mem_list_extract(start);
-	if (item == NULL)
+	
+	if (item == NULL) {
+		//write(1,"cf", 2);
 		return -1;
-
+	}
 	mem_list_free(item);
 
 	return 0;
@@ -110,6 +112,6 @@ size_t mem_list_num_items(void)
 
 	for (iter = mem_list_head.next; iter != &mem_list_head; iter = iter->next)
 		count++;
-
+	
 	return count;
 }

@@ -11,7 +11,6 @@ char *strcpy(char *destination, const char *source)
 
 char *strncpy(char *destination, const char *source, size_t len)
 {
-	size_t i = 0;
 	for (; len; len--, *destination++ = *source++);
 	return destination;
 }
@@ -68,51 +67,51 @@ size_t strlen(const char *str)
 char *strchr(const char *str, int c)
 {
 	for (; *str != c && *str; str++);
-	return (*str) ? str : NULL; 
+	return (*str) ? (char*)str : NULL; 
 }
 
 char *strrchr(const char *str, int c)
 {
 	char *lastOccurence = NULL;
-	for(; *str; str++, lastOccurence = (*str == c) ? str : lastOccurence);
-    return lastOccurence;
+	for(; *str; str++, lastOccurence = (*str == c) ? (char*)str : lastOccurence);
+    return (char*)lastOccurence;
 }
 
 char *strstr(const char *haystack, const char *needle)
 {
 	const char *haystack2, *needle2;
 	for (; *haystack; haystack++) {
-		haystack2 = haystack;
-		needle2 = needle;
+		haystack2 = (char*)haystack;
+		needle2 = (char*)needle;
 		for(; *haystack2 && *needle2 && (*haystack2 == *needle2); haystack2++, needle2++);
 		if (*needle2 == '\0')
-			return haystack;
+			return (char*)haystack;
 	}
 	return NULL;
 }
 
 char *strrstr(const char *haystack, const char *needle)
 {
-	const char *haystack2, *needle2, *lastOccurence = NULL;
+	char *haystack2, *needle2, *lastOccurence = NULL;
     for (; *haystack; haystack++) {
-        haystack2 = haystack;
-        needle2 = needle;
-        for(; *haystack2 && *needle2 && (*haystack2 == *needle2); haystack2++, needle2++);
-		lastOccurence = (*needle2 == '\0') ? haystack : lastOccurence;
+        haystack2 = (char*)haystack;
+        needle2 = (char*)needle;
+		for(; *haystack2 && *needle2 && (*haystack2 == *needle2); haystack2++, needle2++);
+		lastOccurence = (*needle2 == '\0') ? (char*)haystack : lastOccurence;
     }
     return lastOccurence;
 }
 
 void *memcpy(void *destination, const void *source, size_t num)
 {
-	char *d = destination, *s = source;
+	char *d = destination, *s = (char*)source;
 	for (; num; num--, *d++ = *s++);
     return destination;
 }
 
 void *memmove(void *destination, const void *source, size_t num)	
 {
-	char *dst = destination, *src = source;
+	char *dst = destination, *src = (char*)source;
 
 	//checking for the overlapping situations
     if (dst <= src || dst >= (src + num))
@@ -127,7 +126,7 @@ void *memmove(void *destination, const void *source, size_t num)
 
 int memcmp(const void *ptr1, const void *ptr2, size_t num)
 {
-	char *p1 = ptr1, *p2 = ptr2;
+	char *p1 = (char*)ptr1, *p2 = (char*)ptr2;
 
 	for (; num; num--, p1++, p2++){
 		if (*p1 < *p2)

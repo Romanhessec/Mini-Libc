@@ -67,7 +67,6 @@ struct stat {
 
 int stat(const char *__restrict, struct stat *__restrict);
 int fstat(int fd, struct stat *st);
-int fstatat(int fd, const char *restrict path, struct stat *restrict st, int flag);
 
 #ifdef __cplusplus
 }

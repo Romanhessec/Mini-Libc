@@ -13,8 +13,11 @@ int main(void)
 	sleep(2);
 
 	p = malloc(ALLOC_SIZE);
-	if (p == NULL)
+	if (p == NULL) {
+		write(1, "inif", 4);
 		exit(EXIT_FAILURE);
+	}
+		
 
 	sleep(INFINITE);
 
